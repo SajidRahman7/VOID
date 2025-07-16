@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Mystery Keeper - Your Notes{% endblock %}
+
+{% block content %}
+<div class="container bg-white p-4 rounded shadow-sm">
+  <h3 class="mb-4">Welcome, {{ user.first_name }}!</h3>
+
+  <!-- Add Note Form -->
+  <form method="POST" action="{{ url_for('views.add_note') }}">
+    <div class="mb-3">
+      <textarea name="note" class="form-control" rows="3" placeholder="Write a new note..." required></textarea>
+    </div>
+    <button type="submit" class="btn btn-dark">Add Note</button>
+  </form>
+
+  <hr />
+  <h4>Your Notes</h4>
+  {% if notes %}
+    {% for note in notes %}
+      <div class="card mb-2">
+        <div class="card-body">
+          <p class="card-text">{{ note.content }}</p>
+          <small class="text-muted">{{ note.date_created.strftime('%Y-%m-%d %H:%M') }}</small>
+
+          <!-- Delete Note Button (POST method) -->
+          <form method="POST" action="{{ url_for('views.delete_note', id=note.id) }}" class="d-inline float-end ms-2">
+            <button type="submit" class="btn btn-sm btn-outline-dark">Delete</button>
+          </form>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p class="text-muted">No notes yet.</p>
+  {% endif %}
+
+  <a href="{{ url_for('auth.logout') }}" class="btn btn-secondary mt-3">Logout</a>
+</div>
+{% endblock %}

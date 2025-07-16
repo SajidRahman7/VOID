@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: flask-mysteries
+    env: python
+    buildCommand: ""
+    startCommand: gunicorn "website:create_app()"
+    plan: free
+    runtime: python
+    region: oregon  # or choose closest region
+    branch: main
+    repo: https://github.com/SajidRahman7/mysteries
